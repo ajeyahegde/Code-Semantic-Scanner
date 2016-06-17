@@ -86,7 +86,7 @@ for lines in f.readlines():
         if(x!= None):
             bracketcount=bracketcount-1
         else:
-            print("there shud be only bracket in a line")
+            print("There shud be only bracket in a line")
     count=count+1
     print("bracket count",bracketcount)
     print("trymatch",trymatch)
