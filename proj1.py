@@ -23,15 +23,36 @@ def checktry():
         return 0
     else:
         return 1
-f=open("sample.txt","w")
-f.write(" if (a == b) {\nsomething is written\nint x = y;\n } \n  while (a <= b) {\n try { \n } catch (except x) {\n }\n}\n")
-f.close()
+def checkfor():
+    x=re.match(p7,lines)
+    if(x==None):
+        return 0
+    else:
+        return 1
+def checkpublic():
+    x=re.match(p8,lines)
+    if(x==None):
+        return 0
+    else:
+        return 1
+def checkclass():
+    x=re.match(p9,lines)
+    if(x==None):
+        return 0
+    else:
+        return 1
+#f=open("sample.txt","w")
+#f.write(" if (a == b) {\nsomething is written\nfor ( x = 1; x<50 ; x++ ) {\nint x = y;\n } \n  while (a <= b) {\n try { \n } catch (except x) {\n }\n}\n")
+#f.close()
 p1="(if|while|for|try|int|float|string|class|public|private)"
 p2="\s*if\s\(\w+\s(==|!=|<|>|>=|<=)\s\w+\)\s{\n"
 p3="(\s*(int|float|string)\s\w+\;)|(\s*(int|float|string)\s\w+\s\=\s\w\;)"
 p4="\s*while\s\(\w+\s(==|!=|<|>|>=|<=)\s\w+\)\s{\n"
 p5="\s*try\s\{"
 p6="\s*\}\scatch\s\(\w+\s\w+\)\s{\n"
+p7="\s*for\s\(\s(int\s\w+\s\=\s(\w+|\d+)|\w+\s\=\s(\w+|\d+)|)\;\s\w+(<=|>=|<|>|==|!=)\d+\s\;\s\w+(\+\+|\-\-)\s\)\s\{"
+p8="\s*(public|private)\sclass\s\w+\s*\n"
+p9="\s*\class\s\w+\s*\n"
 f=open("sample.txt","r")
 count=1
 bracketcount=0
@@ -56,7 +77,12 @@ for lines in f.readlines():
             else:
                 bracketcount=bracketcount+1
         elif(l[0]=="for"):
-            checkfor()
+            x=checkfor()
+            print(x)
+            if(x==0):
+                print("error in line",count)
+            else:
+                bracketcount=bracketcount+1
         elif(l[0]=="try"):
             x=checktry()
             print(x)
@@ -70,9 +96,19 @@ for lines in f.readlines():
             if(x==0):
                 print("error in line",count)
         elif(l[0]=="class"):
-            checkclass()
+            x=checkclass()
+            print(x)
+            if(x==0):
+                print("error in line",count)
+            else:
+                bracketcount=bracketcount+1
         elif(l[0]=="public" or l[0]=="private"):
-            checkpublic()
+            x=checkpublic()
+            print(x)
+            if(x==0):
+                print("error in line",count)
+            else:
+                bracketcount=bracketcount+1
     if(l[0]=="}"):
         x=re.match(p6,lines)
         if(x!=None):
