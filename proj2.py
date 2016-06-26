@@ -1,42 +1,42 @@
 def checksyntax(directory):
     import re
-    def checkif():
+    def CheckIf():
         x=re.match(p2,lines)
         if(x==None):
             return 0
         else:
             return 1
-    def checkdatatype():
+    def CheckDatatype():
         x=re.match(p3,lines)
         if(x==None):
             return 0
         else:
             return 1
-    def checkwhile():
+    def CheckWhile():
         x=re.match(p4,lines)
         if(x==None):
             return 0
         else:
             return 1
-    def checktry():
+    def CheckTry():
         x=re.match(p5,lines)
         if(x==None):
             return 0
         else:
             return 1
-    def checkfor():
+    def CheckFor():
         x=re.match(p7,lines)
         if(x==None):
             return 0
         else:
             return 1
-    def checkpublic():
+    def CheckPublic():
         x=re.match(p8,lines)
         if(x==None):
             return 0
         else:
             return 1
-    def checkclass():
+    def CheckClass():
         x=re.match(p9,lines)
         if(x==None):
             return 0
@@ -58,74 +58,63 @@ def checksyntax(directory):
     trymatch=0
     for lines in f.readlines():
         l=lines.split()
-        #print(lines)
-        #print(l)
         if(len(l)==0):
             count=count+1
             continue
         if(re.match(p1,l[0])!=None):
             if(l[0]=="if"):
-                x=checkif()
-                #print(x)
+                x=CheckIf()
                 if(x==0):
-                    print("error in line",count)
+                    print("Line ",count," should be of the form 'if (variable (==|!=|>|<|>=|<=) variable) {'")
                     print(lines)
                 else:
                     bracketcount=bracketcount+1
             elif(l[0]=="while"):
-                x=checkwhile()
-                #print(x)
+                x=CheckWhile()
                 if(x==0):
-                    print("error in line",count)
+                    print("Line ",count," should be of the form 'while (variable (==|!=|>|<|>=|<=) variable) {'")
                     print(lines)
                 else:
                     bracketcount=bracketcount+1
             elif(l[0]=="for"):
-                x=checkfor()
-                #print(x)
+                x=CheckFor()
                 if(x==0):
-                    print("error in line",count)
+                    print("Line ",count," should be of the form 'for ( int variable = integer; variable<5 ; variable++) {'")
                     print(lines)
                 else:
                     bracketcount=bracketcount+1
             elif(l[0]=="try"):
-                x=checktry()
-                #print(x)
+                x=CheckTry()
                 if(x==0):
-                    print("error in line",count)
+                    print("Line ",count," should be of the form 'try {'")
                     print(lines)
                 else:
                     trymatch=trymatch+1
             elif(l[0]=="int" or "float" or "String"):
-                x=checkdatatype()
-                #print(x)
+                x=CheckDatatype()
                 if(x==0):
-                    print("error in line",count)
+                    print("Line ",count," should be of the form 'variabletype variable = variable + variable;'")
                     print(lines)
             elif(l[0]=="class"):
-                x=checkclass()
-                #print(x)
+                x=CheckClass()
                 if(x==0):
-                    print("error in line",count)
+                    print("Line ",count," should be of the form 'classtype class classname'")
                     print(lines)
                 else:
                     bracketcount=bracketcount+1
             elif(l[0]=="public" or l[0]=="private"):
-                x=checkpublic()
-                #print(x)
+                x=CheckPublic()
                 if(x==0):
-                    print("error in line",count)
+                    print("Line ",count," should be of the form 'classtype class classname'")
                     print(lines)
                 else:
                     bracketcount=bracketcount+1
         if(l[0]=="}"):
             x=re.match(p6,lines)
             if(x!=None):
-                #print("1")
                 trymatch=trymatch-1
                 bracketcount=bracketcount+1
                 count=count+1
-                #print("bracketcount",bracketcount)
                 continue
             x=re.match("\s*\}\s*\n|\s*\}\s*//",lines)
             if(x!= None):
@@ -133,6 +122,7 @@ def checksyntax(directory):
             else:
                 print("There shud be only bracket in a line")
         count=count+1
-        #print("bracket count",bracketcount)
-        #print("trymatch",trymatch)
+    if(bracketcount!=0 and trymatch!=0):
+        print("There is some semantic error in file")
+    print("____________________________________________________________________________________________________")
     f.close()
